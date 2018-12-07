@@ -1,19 +1,22 @@
-import time
+lsimport time
 import inspect
-
+from functools import wraps
 
 def check_type(thing):
-    def wrap():
+    @wraps(thing)
+    def wrap(*args, **kwargs):
         if inspect.isfunction(thing):
-            start = time.clock()
-            elapse = time.clock() - start
-            print('foo started /n')
-            print('foo finished in', elapse)
+            start = time.time()
+            result = thing(*args, **kwargs)
+            elapse = time.time() - start
+            print(foo.__name__, 'started', '/n')
+            print(foo.__name__, 'finished in', float("{0:.9f}".format(elapse)))
+            return result
         elif inspect.isclass(thing):
             start = time.clock()
             elapse = time.clock() - start
-            print('Bar started /n')
-            print('Bar finished in', elapse)
+            print(Bar.__name__, 'started /n')
+            print(Bar.__name__, 'finished in', float("{0:.9f}".format(elapse)))
     return wrap
 
 
@@ -28,5 +31,5 @@ class Bar:
   def __init__(self):
     pass
 
-# foo()
+foo()
 Bar()
